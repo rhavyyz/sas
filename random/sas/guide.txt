@@ -1,0 +1,40 @@
+Você é um engenheiro de controle responsável pelo desenvolvimento de um sistema de refrigeração para uma estufa agrícola. A estufa precisa manter a temperatura ambiente ideal para o cultivo de plantas sensíveis às variações de temperatura. O objetivo é implementar um sistema de controle autoadaptativo que gerencie o funcionamento do sistema de refrigeração para garantir que a temperatura ambiente permaneça próxima a um valor de referência predefinido (por exemplo, 25°C).
+
+Descrição dos sistemas:
+
+1. Managed System (Sistema de Refrigeração):
+   - O sistema de refrigeração é responsável por alterar a temperatura ambiente da estufa.
+   - Ele possui um controle de temperatura que pode ser ajustado para aumentar ou diminuir a refrigeração.
+   - O sistema de refrigeração mede continuamente a temperatura ambiente.
+
+2. Managing System (Sistema de Gerenciamento):
+   - O sistema de gerenciamento é responsável por controlar o sistema de refrigeração com base na temperatura ambiente medida.
+   - O sistema de gerenciamento possui um algoritmo autoadaptativo que ajusta as configurações do sistema de refrigeração para alcançar e manter a temperatura ambiente próxima à temperatura de referência (por exemplo, 25°C).
+
+Objetivos de adaptação:
+
+Os objetivos de adaptação que devem ser respeitados pelo sistema de gerenciamento são:
+
+1. Manter a temperatura ambiente próxima à temperatura de referência (por exemplo, 25°C) em todas as condições possíveis.
+
+2. Responder às mudanças na temperatura ambiente de forma rápida e eficiente, evitando grandes oscilações na temperatura.
+
+3. Adaptar-se a alterações nas condições ambientais, como variações climáticas ao longo do dia ou diferentes estações do ano.
+
+4. Lidar com situações de emergência, como falhas no sistema de refrigeração ou situações de sobrecarga.
+
+Implementação didática:
+
+Para implementar o exercício, você pode criar um simulador em Python que modele a dinâmica da estufa, do sistema de refrigeração e do sistema de gerenciamento. Você pode usar técnicas simples de controle, como o controle PID, para aprimorar a adaptação do sistema de gerenciamento.
+
+A seguir, estão algumas etapas para ajudá-lo a começar:
+
+1. Defina as variáveis e parâmetros relevantes, como a temperatura ambiente atual, a temperatura de referência, o sinal de controle do sistema de refrigeração, entre outros.
+
+2. Implemente funções para simular o comportamento do sistema de refrigeração, como calcular a mudança na temperatura ambiente com base no sinal de controle.
+
+3. Crie uma função para o sistema de gerenciamento que utilize o algoritmo autoadaptativo para ajustar o sinal de controle do sistema de refrigeração com base na diferença entre a temperatura ambiente atual e a temperatura de referência.
+
+4. Execute a simulação ao longo do tempo, observando como o sistema de gerenciamento responde às mudanças na temperatura ambiente e se adapta para manter a temperatura próxima à referência.
+
+5. Experimente diferentes condições, como mudanças abruptas na temperatura ambiente ou falhas simuladas no sistema de refrigeração, para avaliar a capacidade de adaptação do sistema de gerenciamento.
