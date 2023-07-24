@@ -13,7 +13,7 @@ class AcManaged(TemperatureChanger):
     __file_path : str
 
     def __to_json_str(self) -> str:
-        return '{\n' + f'"turbo": {str(self.turbo).lower()},\n "stand_by": {str(self.stand_by).lower()},\n "desired_temp: {self.desired_temp}\n', + '}\n'
+        return '{\n' + f'"turbo": {str(self.turbo).lower()},\n "stand_by": {str(self.stand_by).lower()},\n "desired_temp": {self.desired_temp}\n' + '}\n'
     
     def __get_info(self):
         f = open(self.__file_path)

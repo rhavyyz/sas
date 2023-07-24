@@ -1,5 +1,5 @@
 {
-    "turbo" : true, 
-    "stand_by" : false, 
-    "desired_temp": 22
+"turbo": true,
+ "stand_by": false,
+ "desired_temp": 19
 }

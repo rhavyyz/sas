@@ -12,9 +12,8 @@ def setup_acs(environment : Env):
     print(len(ac_files))
 
     ac_instances = [AcManaged( base_path_acs+ ac_file, environment) for ac_file in ac_files]
-    
-    print(len(ac_files))
 
+    ac_instances[0].decrease_desired_temp()
 
         # here we should run our system manager for each ac instance as well
     
