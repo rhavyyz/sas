@@ -1,5 +1,6 @@
 import json
 import uuid
+from src.register_obj import RegisterObj
 from src.common.temperature_changer import TemperatureChanger
 from src.register_obj import RegisterObj
 
@@ -28,12 +29,12 @@ class AcManaged(TemperatureChanger):
         f.write(self.__to_json_str())
         f.close()
 
-    def __init__(self, path : str, register_obj : RegisterObj):
+    def __ctor_1(self, path : str, register_obj : RegisterObj):
         self.__file_path = path
         self.__get_info()
-        super().__init__(register_obj, 0) # <---- see possible changes 
+        super().__init__(register_obj, 0) # <---- future changes here  
 
-    def __init__(self, turbo : bool, stand_by : bool, desired_temp : int):
+    def __ctor_2(self, turbo : bool, stand_by : bool, desired_temp : int):
         self.turbo = turbo
         self.stand_by = stand_by
         self.desired_temp = desired_temp
@@ -41,6 +42,12 @@ class AcManaged(TemperatureChanger):
         self.__file_path = base_path_acs + uuid.uuid4().__str__ + '.json'
 
         self.__save_changes()
+
+    def __init__(self, *args) -> None:
+        if len(args) == 2:
+            return self.__ctor_1(*args)
+        else:
+            return self.__ctor_2(*args)
 
     def increase_desired_temp(self):
         self.desired_temp += 1

@@ -9,10 +9,12 @@ from os.path import isfile, join
 def setup_acs(environment : Env):
     ac_files = [f for f in listdir(base_path_acs) if isfile(join(base_path_acs, f))]
 
-    ac_instances = [AcManaged(ac_file) for ac_file in ac_files]
+    print(len(ac_files))
+
+    ac_instances = [AcManaged( base_path_acs+ ac_file, environment) for ac_file in ac_files]
     
-    for ac_instance in ac_instances:
-        environment.register(ac_instance)
+    print(len(ac_files))
+
 
         # here we should run our system manager for each ac instance as well
     

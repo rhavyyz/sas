@@ -37,8 +37,8 @@ class TemperatureChanger:
 
         self.registerObj.register(self)
 
-    def calc(self, time : float):
+    def calc(self, time : float) -> float:
         return self.change_hate * time
 
     def act(self, time : float = 1):        
-        RegisterObj.interact(self.calc(time))
+        self.registerObj.interact( self.calc(time))
