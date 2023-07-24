@@ -17,12 +17,11 @@ class AcManaged(TemperatureChanger):
     
     def __get_info(self):
         f = open(self.__file_path)
-        obj = json.load(f)
+        obj = dict(json.load(f))
         f.close()
 
-        self.turbo = obj["turbo"]
-        self.stand_by = obj["stand_by"]
-        self.desired_temp = obj["desired_temp"]
+        for key, value in obj.items():
+            setattr(self, key, value)
 
     def __save_changes(self):
         f = open(self.__file_path, "w")
