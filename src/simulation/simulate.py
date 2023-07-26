@@ -19,7 +19,7 @@ def status_check():
     f = open(base_path+ "status.txt" , 'r')
     line  = f.readline().strip().upper()
     f.close()
-
+ 
     return line == "TRUE"
 
 def to_log_file(data : str):
@@ -36,11 +36,12 @@ def simulate(env : Env):
     status = True
     reset_file("status.txt", "TRUE")
 
-
     while status:
 
         for temp_changer in env.temp_changers:
             temp_changer.act(5)
+
+        env.temp_update()
 
         to_log_file(env.log())
 

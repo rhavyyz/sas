@@ -28,17 +28,17 @@ from src.register_obj import RegisterObj
 class TemperatureChanger:
 
     # Temperature it changes per second
-    change_hate : float
+    change_rate : float = 1
     registerObj : RegisterObj
 
-    def __init__(self, register_obj: RegisterObj, change_hate : float) -> None:
+    def __init__(self, register_obj: RegisterObj, change_rate : float) -> None:
         self.registerObj = register_obj
-        self.change_hate = change_hate
+        self.change_rate = change_rate
 
         self.registerObj.register(self)
 
     def calc(self, time : float) -> float:
-        return self.change_hate * time
+        return self.change_rate * time
 
-    def act(self, time : float = 1):        
+    def act(self, time : float = 1):
         self.registerObj.interact( self.calc(time))

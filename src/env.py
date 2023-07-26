@@ -5,10 +5,10 @@ from src.common.temperature_changer import TemperatureChanger
 from src.register_obj import RegisterObj
 
 class Env(RegisterObj):
+    __delta : float = 0
     temp : float 
     temp_changers : list[TemperatureChanger] = []
     __file_path : str
-
 
     def __to_json_str(self) -> str:
         return '{\n' + f'"temp": {self.temp}\n' + '}\n'
@@ -33,10 +33,8 @@ class Env(RegisterObj):
         self.__get_info()
 
     def log(self) -> str:
-        res = "-="*40 + "\n"
-
+        res = "--"*40 + "\n"
         res += str(self.temp) + "\n"
-
         res += self.temp_changers.__str__() + "\n"
 
         return res
@@ -45,5 +43,12 @@ class Env(RegisterObj):
         self.temp_changers.append(obj)
 
     def interact(self, change: float):
-        self.temp += change
+        # print(self.__delta)
+        self.__delta += change
+        # self.__save_changes()
+
+    def temp_update(self):
+        self.temp += self.__delta
+        self.__delta = 0
+
         self.__save_changes()

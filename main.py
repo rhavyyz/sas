@@ -1,9 +1,8 @@
-import json
-
 from src.env import Env
-from src.simulation.main import simulate
+from src.simulation.simulate import simulate
+from src.system.sensor_system import SensorSystem
 
-from src.simulation.main import base_path ## fix this to put all base_paths into one constant files
+from src.simulation.simulate import base_path ## fix this to put all base_paths into one constant files
 from src.system.ac_managed import base_path_acs, AcManaged
 
 from os import listdir
@@ -14,21 +13,23 @@ def setup_env() -> Env:
 
 
 def setup_acs(environment : Env):
+
+    sensor_system = SensorSystem(environment)
+
     ac_files = [f for f in listdir(base_path_acs) if isfile(join(base_path_acs, f))]
 
     print(len(ac_files))
 
-    ac_instances = [AcManaged( base_path_acs+ ac_file, environment) for ac_file in ac_files]
+    ac_instances = [AcManaged(sensor_system, base_path_acs+ ac_file, environment) for ac_file in ac_files]
 
-    ac_instances[0].decrease_desired_temp()
+    # ac_instances[0].decrease_desired_temp()
 
     # here we should run our system manager for each ac instance as well
     
-
 def main():
     environment = setup_env()
     
-    environment.interact(1)
+    # environment.interact(1)
 
     setup_acs(environment)
 
