@@ -1,19 +1,35 @@
 from constants import STORAGE, API_KEY, CITY, RESET
 from src.util.Saveble import Saveble
-from simulation.TemperatureChanger import TemperatureChanger
+from src.simulation.TemperatureChanger import TemperatureChanger
 from src.util.Logger import Logger
+from src.managed.AC import AC
+from threading import Lock
 
 import requests, datetime
 
 class Environment(Saveble):
     today : str
+    
     temperature : float
 
     _changers : list[TemperatureChanger] = []
 
+    __lock : Lock
     __logger : Logger
     __time_pace : int = 10
     __specific_heat_capacity : float = 1
+
+    def sync_get_temperature(self):
+        with self.__lock:
+            return self.temperature
+        
+    def sync_set_temperature(self, value : float):
+        with self.__lock:
+            self.temperature = value
+
+    def sync_incrise_temperature(self, value : float):
+        with self.__lock:
+            self.temperature += value
 
     def _save(self,) -> None:
         return super()._save(STORAGE + "Environment.txt")
@@ -22,17 +38,26 @@ class Environment(Saveble):
         if len(args) == 0:
             raise Exception("add function should recieve at least one paramether")
 
-        if isinstance(args[0], TemperatureChanger):
-            return self._changers.extend(args)
-        
-        for l in args:
-            self._changers.extend(l)
+        for arg in args: 
+            if isinstance(arg, AC):
+                self._changers.append(arg)
+                # Maybe refactor this line because of logic inconsistens
+                arg.configure_sensor(self.sync_get_temperature)
+                continue
 
-    def __init__(self, logger = None) -> None:
+            if isinstance(arg, TemperatureChanger):
+                self._changers.append(arg)
+                continue
+            if issubclass(type(arg), list):
+                self.add(*arg)
+
+    def __init__(self, lock : Lock,logger = None) -> None:
         if logger == None:
             self.__logger = Logger()
         else:
             self.__logger = logger
+
+        self.__lock = lock
 
         self.today = datetime.datetime.now().strftime("%d/%m/%y")
         
@@ -65,10 +90,10 @@ class Environment(Saveble):
         self.__logger.log('\n')
 
         self.__logger.add(self.temperature)
-        self.temperature += tot / self.__specific_heat_capacity
+        
+        self.sync_incrise_temperature(tot / self.__specific_heat_capacity)
 
         self.__logger.add(self.temperature)
         self.__logger.log("\n"+"-" * 40)
-
 
         self._save()

@@ -1,17 +1,19 @@
 # from src.manager.SystemClass import SystemClass
 from src.manager.SystemClass import SystemClass
 from src.manager.Goal import Goal
+from threading import Lock, Thread
+from time import sleep
 
 class FeedbackLoop (SystemClass):
     
     system : SystemClass
     __goals : list[Goal] = []
-
-    def __init__(self, system : SystemClass) -> None:
-        self.system = system
+    __lock : Lock
+    __thread : Thread
 
     def __get_values(self, props : list[str]):
-        return {prop: self.system[prop] for prop in props}
+        with self.__lock:
+            return {prop: self.system[prop] for prop in props}
 
     def add(self, *args : tuple[Goal] | tuple[list[Goal]]) -> None:
         if len(args) == 0:
@@ -26,4 +28,18 @@ class FeedbackLoop (SystemClass):
     def single_execution(self):
         for goal in self.__goals:
             if goal.check(self.__get_values(goal.props)):
-                goal.act(self.system)
+                with self.__lock:
+                    goal.act(self.system)
+
+    def loop(self):
+        while(True):
+            self.single_execution()
+            # sleep(3)
+
+    def __init__(self, system : SystemClass, lock : Lock ) -> None:
+        self.system = system
+        self.__lock = lock
+        self.__thread = Thread( target= self.loop, daemon=True)
+
+    def start(self):
+        self.__thread.start()

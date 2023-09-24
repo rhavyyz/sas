@@ -1,12 +1,13 @@
 from src.manager.SystemClass import SystemClass
+from typing import Callable
 
 class Goal:
     props : list[str] = []
-    __checker : callable[[dict[str, any]], bool]
 
-    __action : callable[[SystemClass], bool]
+    __checker : Callable[[dict[str, any]], bool]
+    __action : Callable[[SystemClass], bool]
 
-    def __init__(self, props : list[str], checker : callable[[any], bool], action : callable[[SystemClass], bool] ) -> None:
+    def __init__(self, props : list[str], checker : Callable[[dict[str, any]], bool], action : Callable[[SystemClass], bool] ) -> None:
         self.props = props.copy()
         self.__checker = checker
         self.__action = action
