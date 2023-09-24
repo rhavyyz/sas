@@ -1,6 +1,6 @@
 from constants import STORAGE, API_KEY, CITY, RESET
 from src.util.Saveble import Saveble
-from src.TemperatureChanger import TemperatureChanger
+from simulation.TemperatureChanger import TemperatureChanger
 from src.util.Logger import Logger
 
 import requests, datetime
@@ -9,8 +9,9 @@ class Environment(Saveble):
     today : str
     temperature : float
 
+    _changers : list[TemperatureChanger] = []
+
     __logger : Logger
-    __changers : list[TemperatureChanger] = []
     __time_pace : int = 10
     __specific_heat_capacity : float = 1
 
@@ -22,10 +23,10 @@ class Environment(Saveble):
             raise Exception("add function should recieve at least one paramether")
 
         if isinstance(args[0], TemperatureChanger):
-            return self.__changers.extend(args)
+            return self._changers.extend(args)
         
         for l in args:
-            self.__changers.extend(l)
+            self._changers.extend(l)
 
     def __init__(self, logger = None) -> None:
         if logger == None:
@@ -56,7 +57,7 @@ class Environment(Saveble):
 
         tot = float(0)
 
-        for changer in self.__changers:
+        for changer in self._changers:
             tot += changer.calc(self.temperature, self.__time_pace)
 
             self.__logger.add(tot)

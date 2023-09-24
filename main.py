@@ -1,5 +1,5 @@
-from src.Environment import Environment
-from src.TemperatureChanger import TemperatureChanger
+from simulation.Environment import Environment
+from simulation.TemperatureChanger import TemperatureChanger
 from src.util.Logger import Logger
 
 
