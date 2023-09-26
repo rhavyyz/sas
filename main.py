@@ -20,7 +20,7 @@ e.add(air_conditioner)
 # print(air_conditioner.__dict__)
 
 loop.add(Goal(['sense', 'desired_temperature'], 
-              lambda d : d["sense"]() < d["desired_temperature"],
+              lambda d : d["sense"]() <= d["desired_temperature"],
               lambda sys : sys.set_stand_by(True)),
          Goal(['sense', 'desired_temperature', 'stand_by'], 
               lambda d : d["sense"]() > d["desired_temperature"] + 2 and d["stand_by"],

@@ -11,6 +11,7 @@ class AC( TemperatureChanger ,SystemClass):
         self.stand_by = False
         super().__init__(desired_temperature)
 
+    # recieve a function for sensing temperature
     def configure_sensor(self, sense : Callable[[any], float]):
         self.sense = sense
 

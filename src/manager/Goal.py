@@ -12,8 +12,11 @@ class Goal:
         self.__checker = checker
         self.__action = action
     
+    # It recieves a function that checks if an action is needed to be taken 
     def check(self, args : dict[str, any]) -> bool:
         return self.__checker(args.copy())
     
+    # A function that represents the adaptation by itself
+    # it should recieve the managed system and  
     def act(self, sys : SystemClass) -> bool:
         return self.__action(sys)

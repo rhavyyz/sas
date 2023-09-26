@@ -10,7 +10,6 @@ class Logger:
 
     def log(self, content = []) -> None:
         
-        
         if issubclass(type(content), (tuple, list)):
             self.__content.extend(content)
         else:

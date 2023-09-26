@@ -27,7 +27,7 @@ class Environment(Saveble):
         with self.__lock:
             self.temperature = value
 
-    def sync_incrise_temperature(self, value : float):
+    def sync_increase_temperature(self, value : float):
         with self.__lock:
             self.temperature += value
 
@@ -85,15 +85,15 @@ class Environment(Saveble):
         for changer in self._changers:
             tot += changer.calc(self.temperature, self.__time_pace)
 
-            self.__logger.add(tot)
+            self.__logger.log(f"Delta t: {tot} after processing {changer},")
 
         self.__logger.log('\n')
 
-        self.__logger.add(self.temperature)
+        self.__logger.log( f'Initial temperature {self.temperature}')
         
-        self.sync_incrise_temperature(tot / self.__specific_heat_capacity)
+        self.sync_increase_temperature(tot / self.__specific_heat_capacity)
 
-        self.__logger.add(self.temperature)
-        self.__logger.log("\n"+"-" * 40)
+        self.__logger.log(f'Final temperature {self.temperature}')
+        self.__logger.log("-" * 40)
 
         self._save()
